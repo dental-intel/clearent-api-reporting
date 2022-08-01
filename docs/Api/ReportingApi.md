@@ -10,7 +10,7 @@ Method | HTTP request | Description
 ## `merchantClosedBatches()`
 
 ```php
-merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number)
+merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by)
 ```
 
 
@@ -30,10 +30,13 @@ $apiInstance = new ClearentReportingApi\Api\ReportingApi(
 );
 $batch_status = 'batch_status_example'; // string
 $expected_funded_date = 'expected_funded_date_example'; // string
-$merchant_number = 'merchant_number_example'; // string
+$merchant_number = 6588000000999998; // string | Unique merchant number - MID Number.
+$page_number = 1; // string | Allows a specific page to be returned from a result list.
+$page_size = 10; // string | Allows setting of the number of results to be returned per page.
+$sort_by = desc(MerchantNumber); // string | Allows sorting of the paginated result set, multiple order by allowed.
 
 try {
-    $apiInstance->merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number);
+    $apiInstance->merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
 } catch (Exception $e) {
     echo 'Exception when calling ReportingApi->merchantClosedBatches: ', $e->getMessage(), PHP_EOL;
 }
@@ -45,7 +48,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **batch_status** | **string**|  | [optional]
  **expected_funded_date** | **string**|  | [optional]
- **merchant_number** | **string**|  | [optional]
+ **merchant_number** | **string**| Unique merchant number - MID Number. | [optional]
+ **page_number** | **string**| Allows a specific page to be returned from a result list. | [optional]
+ **page_size** | **string**| Allows setting of the number of results to be returned per page. | [optional]
+ **sort_by** | **string**| Allows sorting of the paginated result set, multiple order by allowed. | [optional]
 
 ### Return type
 

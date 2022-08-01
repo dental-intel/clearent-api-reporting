@@ -120,15 +120,18 @@ class ReportingApi
      *
      * @param  string $batch_status batch_status (optional)
      * @param  string $expected_funded_date expected_funded_date (optional)
-     * @param  string $merchant_number merchant_number (optional)
+     * @param  string $merchant_number Unique merchant number - MID Number. (optional)
+     * @param  string $page_number Allows a specific page to be returned from a result list. (optional)
+     * @param  string $page_size Allows setting of the number of results to be returned per page. (optional)
+     * @param  string $sort_by Allows sorting of the paginated result set, multiple order by allowed. (optional)
      *
      * @throws \ClearentReportingApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function merchantClosedBatches($batch_status = null, $expected_funded_date = null, $merchant_number = null)
+    public function merchantClosedBatches($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
-        $this->merchantClosedBatchesWithHttpInfo($batch_status, $expected_funded_date, $merchant_number);
+        $this->merchantClosedBatchesWithHttpInfo($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
     }
 
     /**
@@ -136,15 +139,18 @@ class ReportingApi
      *
      * @param  string $batch_status (optional)
      * @param  string $expected_funded_date (optional)
-     * @param  string $merchant_number (optional)
+     * @param  string $merchant_number Unique merchant number - MID Number. (optional)
+     * @param  string $page_number Allows a specific page to be returned from a result list. (optional)
+     * @param  string $page_size Allows setting of the number of results to be returned per page. (optional)
+     * @param  string $sort_by Allows sorting of the paginated result set, multiple order by allowed. (optional)
      *
      * @throws \ClearentReportingApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function merchantClosedBatchesWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null)
+    public function merchantClosedBatchesWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
-        $request = $this->merchantClosedBatchesRequest($batch_status, $expected_funded_date, $merchant_number);
+        $request = $this->merchantClosedBatchesRequest($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
 
         try {
             $options = $this->createHttpClientOption();
@@ -195,14 +201,17 @@ class ReportingApi
      *
      * @param  string $batch_status (optional)
      * @param  string $expected_funded_date (optional)
-     * @param  string $merchant_number (optional)
+     * @param  string $merchant_number Unique merchant number - MID Number. (optional)
+     * @param  string $page_number Allows a specific page to be returned from a result list. (optional)
+     * @param  string $page_size Allows setting of the number of results to be returned per page. (optional)
+     * @param  string $sort_by Allows sorting of the paginated result set, multiple order by allowed. (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function merchantClosedBatchesAsync($batch_status = null, $expected_funded_date = null, $merchant_number = null)
+    public function merchantClosedBatchesAsync($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
-        return $this->merchantClosedBatchesAsyncWithHttpInfo($batch_status, $expected_funded_date, $merchant_number)
+        return $this->merchantClosedBatchesAsyncWithHttpInfo($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -215,15 +224,18 @@ class ReportingApi
      *
      * @param  string $batch_status (optional)
      * @param  string $expected_funded_date (optional)
-     * @param  string $merchant_number (optional)
+     * @param  string $merchant_number Unique merchant number - MID Number. (optional)
+     * @param  string $page_number Allows a specific page to be returned from a result list. (optional)
+     * @param  string $page_size Allows setting of the number of results to be returned per page. (optional)
+     * @param  string $sort_by Allows sorting of the paginated result set, multiple order by allowed. (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function merchantClosedBatchesAsyncWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null)
+    public function merchantClosedBatchesAsyncWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
         $returnType = '';
-        $request = $this->merchantClosedBatchesRequest($batch_status, $expected_funded_date, $merchant_number);
+        $request = $this->merchantClosedBatchesRequest($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -253,12 +265,15 @@ class ReportingApi
      *
      * @param  string $batch_status (optional)
      * @param  string $expected_funded_date (optional)
-     * @param  string $merchant_number (optional)
+     * @param  string $merchant_number Unique merchant number - MID Number. (optional)
+     * @param  string $page_number Allows a specific page to be returned from a result list. (optional)
+     * @param  string $page_size Allows setting of the number of results to be returned per page. (optional)
+     * @param  string $sort_by Allows sorting of the paginated result set, multiple order by allowed. (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function merchantClosedBatchesRequest($batch_status = null, $expected_funded_date = null, $merchant_number = null)
+    public function merchantClosedBatchesRequest($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
 
         $resourcePath = '/data/api/v1/standard/merchantClosedBatches';
@@ -290,6 +305,33 @@ class ReportingApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $merchant_number,
             'merchantNumber', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $page_number,
+            'pageNumber', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $page_size,
+            'pageSize', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $sort_by,
+            'sortBy', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
