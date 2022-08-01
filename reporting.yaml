@@ -12,10 +12,156 @@ components:
       schema:
         type: string
     merchantNumberParam:
+      description: Unique merchant number - MID Number.
       in: query
       name: merchantNumber
       schema:
+        example: '6588000000999998'
         type: string
+    pageNumberParam:
+      description: Allows a specific page to be returned from a result list.
+      in: query
+      name: pageNumber
+      schema:
+        example: '1'
+        type: string
+    pageSizeParam:
+      description: Allows setting of the number of results to be returned per page.
+      in: query
+      name: pageSize
+      schema:
+        example: '10'
+        type: string
+    sortByParam:
+      description: Allows sorting of the paginated result set, multiple order by allowed.
+      in: query
+      name: sortBy
+      schema:
+        example: desc(MerchantNumber)
+        type: string
+  schemas:
+    MerchantClosedBatchesResponse:
+      additionalProperties: false
+      properties:
+        merchantClosedBatches:
+          items:
+            properties:
+              backupWithholding:
+                description: Amount of backup withholding.
+                example: 34.45
+                type: number
+              batchFees:
+                description: Amount of fees assessed on the batch.
+                example: 23.24
+                type: number
+              batchNumber:
+                description: 3 digit number of the batch for the specific merchant, store, and terminal.
+                example: '278'
+                type: string
+              batchTotal:
+                description: Net amount of the batch.
+                example: 12.3
+                type: number
+              closedDate:
+                description: Date and time batch was closed.
+                example: '2020-05-30'
+                type: string
+              conveyedAmount:
+                description: Total conveyed amount.
+                example: 45.22
+                type: number
+              conveyedCount:
+                description: Number of conveyed transactions.
+                example: 54.96
+                type: number
+              depositAccountNumber:
+                description: The Merchants bank account number.
+                example: 62.74
+                type: number
+              depositAmount:
+                description: Amount deposited into Merchant's account.
+                example: 18.04
+                type: number
+              fundedDate:
+                description: Date funding was expected to be made to the merchant.
+                example: '2022-05-17'
+                type: string
+              merchantNumber:
+                description: Merchant MID Number.
+                example: '6588000000999998'
+                type: string
+              refundCount:
+                description: Number of refund transactions.
+                example: 73.12
+                type: number
+              refunds:
+                description: Total refund amount.
+                example: 16.38
+                type: number
+              sales:
+                description: Total sales amount.
+                example: 81.74
+                type: number
+              salesCount:
+                description: Number of sales transactions in the batch.
+                example: 38.28
+                type: number
+              settleDate:
+                description: Date the batch was settled.
+                example: '2022-02-25'
+                type: string
+              storeNumber:
+                description: 4-digit store identification number representing the store where the terminal is located.
+                example: '7658'
+                type: string
+              terminalID:
+                description: 4-digit number assigned to a terminal.
+                example: '7560'
+                type: string
+              terminalName:
+                description: Customer specified name for the terminal.
+                example: Leeroy Jenkins
+                type: string
+          type: array
+        metadata:
+          additionalProperties: false
+          properties:
+            exchangeID:
+              description: Identifier for this API call. Can be provided for tracing interactions.
+              example: kklskefje
+              type: string
+            maxId:
+              description: Highest ID for records returned. Can be used for seek paging.
+              example: 15
+              type: integer
+            timestamp:
+              description: Timestamp of when the API call occurred.
+              example: 2019-12- 12T22:59:10.2440498
+              type: string
+          type: object
+        page:
+          additionalProperties: false
+          properties:
+            last:
+              example: false
+              type: string
+            number:
+              description: Index of paging object. Increment to get new pages of response.
+              example: '1'
+              type: string
+            size:
+              example: '10'
+              type: string
+            totalElements:
+              example: '142'
+              type: string
+          type: object
+      type: object
+  securitySchemes:
+    AccessKeyAuth:
+      in: header
+      name: AccessKey
+      type: apiKey
 info:
   license:
     name: Unlicensed
@@ -30,8 +176,15 @@ paths:
         - $ref: '#/components/parameters/batchStatusParam'
         - $ref: '#/components/parameters/expectedFundedDateParam'
         - $ref: '#/components/parameters/merchantNumberParam'
+        - $ref: '#/components/parameters/pageNumberParam'
+        - $ref: '#/components/parameters/pageSizeParam'
+        - $ref: '#/components/parameters/sortByParam'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantClosedBatchesResponse'
           description: OK
         '401':
           description: Unauthorized
@@ -40,7 +193,7 @@ paths:
       tags:
         - Reporting
 security:
-  - ApiKeyAuth: []
+  - AccessKeyAuth: []
 servers:
   - url: https://reporting-sb.clearent.net
   - url: https://reporting.clearent.net
