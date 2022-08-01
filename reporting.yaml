@@ -1,0 +1,48 @@
+---
+components:
+  parameters:
+    batchStatusParam:
+      in: query
+      name: batchStatus
+      schema:
+        type: string
+    expectedFundedDateParam:
+      in: query
+      name: expectedFundedDate
+      schema:
+        type: string
+    merchantNumberParam:
+      in: query
+      name: merchantNumber
+      schema:
+        type: string
+info:
+  license:
+    name: Unlicensed
+  title: Clearent Reporting API
+  version: 1.0.0
+openapi: 3.0.2
+paths:
+  /data/api/v1/standard/merchantClosedBatches:
+    get:
+      operationId: merchantClosedBatches
+      parameters:
+        - $ref: '#/components/parameters/batchStatusParam'
+        - $ref: '#/components/parameters/expectedFundedDateParam'
+        - $ref: '#/components/parameters/merchantNumberParam'
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      tags:
+        - Reporting
+security:
+  - ApiKeyAuth: []
+servers:
+  - url: https://reporting-sb.clearent.net
+  - url: https://reporting.clearent.net
+tags:
+  - name: Reporting
