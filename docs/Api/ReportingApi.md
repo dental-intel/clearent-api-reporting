@@ -10,7 +10,7 @@ Method | HTTP request | Description
 ## `merchantClosedBatches()`
 
 ```php
-merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by)
+merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by): \ClearentReportingApi\Model\MerchantClosedBatchesResponse
 ```
 
 
@@ -22,11 +22,17 @@ merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $p
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure API key authorization: AccessKeyAuth
+$config = ClearentReportingApi\Configuration::getDefaultConfiguration()->setApiKey('AccessKey', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// $config = ClearentReportingApi\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AccessKey', 'Bearer');
+
 
 $apiInstance = new ClearentReportingApi\Api\ReportingApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
 $batch_status = 'batch_status_example'; // string
 $expected_funded_date = 'expected_funded_date_example'; // string
@@ -36,7 +42,8 @@ $page_size = 10; // string | Allows setting of the number of results to be retur
 $sort_by = desc(MerchantNumber); // string | Allows sorting of the paginated result set, multiple order by allowed.
 
 try {
-    $apiInstance->merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
+    $result = $apiInstance->merchantClosedBatches($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ReportingApi->merchantClosedBatches: ', $e->getMessage(), PHP_EOL;
 }
@@ -55,16 +62,16 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**\ClearentReportingApi\Model\MerchantClosedBatchesResponse**](../Model/MerchantClosedBatchesResponse.md)
 
 ### Authorization
 
-No authorization required
+[AccessKeyAuth](../../README.md#AccessKeyAuth)
 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

@@ -127,11 +127,12 @@ class ReportingApi
      *
      * @throws \ClearentReportingApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \ClearentReportingApi\Model\MerchantClosedBatchesResponse
      */
     public function merchantClosedBatches($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
-        $this->merchantClosedBatchesWithHttpInfo($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
+        list($response) = $this->merchantClosedBatchesWithHttpInfo($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
+        return $response;
     }
 
     /**
@@ -146,7 +147,7 @@ class ReportingApi
      *
      * @throws \ClearentReportingApi\ApiException on non-2xx response
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \ClearentReportingApi\Model\MerchantClosedBatchesResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function merchantClosedBatchesWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
@@ -187,10 +188,50 @@ class ReportingApi
                 );
             }
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    if ('\ClearentReportingApi\Model\MerchantClosedBatchesResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ('\ClearentReportingApi\Model\MerchantClosedBatchesResponse' !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\ClearentReportingApi\Model\MerchantClosedBatchesResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\ClearentReportingApi\Model\MerchantClosedBatchesResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+                if ($returnType !== 'string') {
+                    $content = json_decode($content);
+                }
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
 
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\ClearentReportingApi\Model\MerchantClosedBatchesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
             }
             throw $e;
         }
@@ -234,14 +275,27 @@ class ReportingApi
      */
     public function merchantClosedBatchesAsyncWithHttpInfo($batch_status = null, $expected_funded_date = null, $merchant_number = null, $page_number = null, $page_size = null, $sort_by = null)
     {
-        $returnType = '';
+        $returnType = '\ClearentReportingApi\Model\MerchantClosedBatchesResponse';
         $request = $this->merchantClosedBatchesRequest($batch_status, $expected_funded_date, $merchant_number, $page_number, $page_size, $sort_by);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -343,11 +397,11 @@ class ReportingApi
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
-                []
+                ['application/json']
             );
         } else {
             $headers = $this->headerSelector->selectHeaders(
-                [],
+                ['application/json'],
                 []
             );
         }
@@ -377,6 +431,11 @@ class ReportingApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('AccessKey');
+        if ($apiKey !== null) {
+            $headers['AccessKey'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
