@@ -1,0 +1,119 @@
+---
+content:
+  application/json:
+    schema:
+      properties:
+        merchantClosedBatches:
+          items:
+            properties:
+              backupWithholding:
+                description: Amount of backup withholding.
+                example: '0.0000'
+                type: string
+              batchFees:
+                description: Amount of fees assessed on the batch.
+                example: '0.0000'
+                type: string
+              batchNumber:
+                description: 3 digit number of the batch for the specific merchant, store, and terminal.
+                example: '1'
+                type: string
+              batchTotal:
+                description: Net amount of the batch.
+                example: '1.0000'
+                type: string
+              closedDate:
+                description: Date and time batch was closed.
+                example: '2022-09-08T00:04:17.327'
+                type: string
+              conveyedAmount:
+                description: Total conveyed amount.
+                example: '0.0000'
+                type: string
+              conveyedCount:
+                description: Number of conveyed transactions.
+                example: '0'
+                type: string
+              depositAccountNumber:
+                description: The Merchants bank account number.
+                example: '******1939'
+                type: string
+              depositAmount:
+                description: Amount deposited into Merchant's account.
+                example: '1.0000'
+                type: string
+              fundedDate:
+                description: Date funding was expected to be made to the merchant.
+                example: '2022-09-09T00:00:00'
+                type: string
+              merchantNumber:
+                description: Merchant MID Number.
+                example: '6588000000999998'
+                type: string
+              refundCount:
+                description: Number of refund transactions.
+                example: '0'
+                type: string
+              refunds:
+                description: Total refund amount.
+                example: '0.0000'
+                type: string
+              rowNumber:
+                example: '1'
+                type: string
+              sales:
+                description: Total sales amount.
+                example: '1.0000'
+                type: string
+              salesCount:
+                description: Number of sales transactions in the batch.
+                example: '1'
+                type: string
+              settleDate:
+                description: Date the batch was settled.
+                example: '2022-09-08T00:00:00'
+                type: string
+              storeNumber:
+                description: 4-digit store identification number representing the store where the terminal is located.
+                example: '7658'
+                type: string
+              terminalID:
+                description: 4-digit number assigned to a terminal.
+                example: '7560'
+                type: string
+              terminalName:
+                description: Customer specified name for the terminal.
+                example: Leeroy Jenkins Dentistry
+                type: string
+          type: array
+        metadata:
+          additionalProperties: false
+          properties:
+            exchangeID:
+              description: Identifier for this API call. Can be provided for tracing interactions.
+              example: ID-clearent-security-edge-proxy-service-3-25cf4f89-384e-43ab-95d4-678dbd9f8b42
+              type: string
+            timestamp:
+              description: Timestamp of when the API call occurred.
+              example: '2022-09-09T15:54:31.3486248Z'
+              type: string
+          type: object
+        page:
+          additionalProperties: false
+          properties:
+            last:
+              example: false
+              type: boolean
+            number:
+              description: Index of paging object. Increment to get new pages of response.
+              example: 1
+              type: number
+            size:
+              example: 100
+              type: number
+            totalElements:
+              example: 142
+              type: number
+          type: object
+      type: object
+description: OK
