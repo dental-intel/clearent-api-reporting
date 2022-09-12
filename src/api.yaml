@@ -1,0 +1,23 @@
+---
+components:
+  securitySchemes:
+    AccessKeyAuth:
+      $ref: securitySchemes/AccessKeyAuth.yaml
+info:
+  description: Clearent API written by the members of Dental Intelligence.
+  license:
+    name: Unlicensed
+    url: https://github.com/dental-intel/clearent-api-reporting
+  title: Clearent Reporting API
+  version: 1.0.0
+openapi: 3.0.3
+paths:
+  /data/api/v1/standard/merchantClosedBatches:
+    $ref: paths/MerchantClosedBatchesPath.yaml
+security:
+  - AccessKeyAuth: []
+servers:
+  - url: https://reporting.clearent.net
+tags:
+  - description: A list of reporting endpoints.
+    name: Reporting

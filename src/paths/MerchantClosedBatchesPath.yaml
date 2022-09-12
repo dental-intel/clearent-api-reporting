@@ -1,0 +1,35 @@
+---
+get:
+  operationId: merchantClosedBatches
+  parameters:
+    - in: query
+      name: expectedFundedDate
+      schema:
+        example: '2022-09-09'
+        type: string
+    - in: query
+      name: merchantNumber
+      schema:
+        example: '6588000000999998'
+        type: string
+    - in: query
+      name: pageNumber
+      schema:
+        example: '1'
+        type: string
+    - in: query
+      name: pageSize
+      schema:
+        example: '50'
+        type: string
+    - in: query
+      name: sortBy
+      schema:
+        example: desc(MerchantNumber)
+        type: string
+  responses:
+    '200':
+      $ref: ../components/responses/MerchantClosedBatches200.yaml
+  summary: A reporting endpoint.
+  tags:
+    - Reporting

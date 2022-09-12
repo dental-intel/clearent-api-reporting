@@ -4,6 +4,11 @@ editor:
 
 .PHONY: generate
 generate:
+	@git rm -rf ':!src/' ':!redocly.yaml' ':!Makefile' ':!.github/'
+	@docker run --rm \
+		-v ${PWD}:/spec redocly/openapi-cli bundle \
+		src/api.yaml \
+		--output reporting.yaml
 	@docker run --rm \
   		-v ${PWD}:/local openapitools/openapi-generator-cli generate \
   		-i /local/reporting.yaml \
